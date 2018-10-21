@@ -1,0 +1,25 @@
+{
+    "name": "SRS New Tab",
+    "version": "0.1",
+    "description": "Integrate spaced learning into your day!",
+    "permissions": [],
+    "chrome_url_overrides": {
+      "newtab": "src/index.html"
+    },
+    "browser_action": {
+      "default_popup": "src/popup.html",
+      "default_icon": {
+        "16": "img/get_started16.png",
+        "32": "img/get_started32.png",
+        "48": "img/get_started48.png",
+        "128": "img/get_started128.png"
+      }
+    },
+    "icons": {
+      "16": "img/get_started16.png",
+      "32": "img/get_started32.png",
+      "48": "img/get_started48.png",
+      "128": "img/get_started128.png"
+    },
+    "manifest_version": 2
+}
