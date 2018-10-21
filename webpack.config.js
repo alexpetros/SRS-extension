@@ -1,5 +1,6 @@
-// set up from chrome extensions with a little help from this gist:
+// set up from chrome extensions with a little help from these code samples:
 // https://gist.github.com/ayastreb/8f094c7ea17eb36cb1e6b5b9db9042c0
+// https://github.com/checkly/puppeteer-recorder/blob/master/package.json
 
 // set to 'production' or 'development' in your env
 const env = process.env.NODE_ENV || 'development'

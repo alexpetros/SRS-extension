@@ -6,7 +6,7 @@
   "author": "<apetros15@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development webpack-serve ./webpack.config.js",
+    "start": "NODE_ENV=development webpack --watch",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist"
   },
@@ -20,8 +20,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.21.0",
-    "webpack-cli": "^3.1.2",
-    "webpack-serve": "^2.0.2"
+    "webpack-cli": "^3.1.2"
   },
   "dependencies": {}
 }
