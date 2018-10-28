@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './css/style.scss'
-
-const App = () => {
-  return <div className="test">Main react content</div>
-};
+import App from './components/app'
+import './components/style.scss'
 
 ReactDOM.render(<App />, document.getElementById('main'))
