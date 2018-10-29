@@ -3,12 +3,12 @@
 // https://github.com/checkly/puppeteer-recorder/blob/master/package.json
 
 // set to 'production' or 'development' in your env
-const env = process.env.NODE_ENV || 'development';
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const env = process.env.NODE_ENV || 'development'
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const finalCSSLoader = (env === 'production') ? MiniCssExtractPlugin.loader : { loader: 'style-loader' };
+const finalCSSLoader = (env === 'production') ? MiniCssExtractPlugin.loader : { loader: 'style-loader' }
 
 
 module.exports = {
@@ -44,7 +44,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/,
+        test: /\.(jpe?g|png|gif|svg|woff(2)?|ttf|eot|svg)$/,
         use: [
           {
             loader: 'file-loader',
@@ -68,5 +68,5 @@ module.exports = {
       { from: './src/img', to: './img/' },
     ]),
   ],
-};
+}
 
