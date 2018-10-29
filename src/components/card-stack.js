@@ -1,35 +1,31 @@
 import React, { Component } from 'react'
 import Card from './info-card'
 
-const testCards = [
-  {
-    title: 'Card #1',
-    content: 'Airspeed velocity of an unladen swallow',
-  },
-  {
-    title: 'Card #2',
-    content: 'Airspeed velocity of an unladen swallow',
-  },
-  {
-    title: 'Card #3',
-    content: 'Airspeed velocity of an unladen swallow',
-  },
-  {
-    title: 'Card #4',
-    content: 'Airspeed velocity of an unladen swallow',
-  },
-]
-
 export default class CardStack extends Component {
   constructor(props) {
     super()
+
+    this.state = {
+      index: 0,
+    }
   }
 
+  // moveRight() {
+  //   if (index < this.props.cards.length - 3) {
+  //     this.setState({count: this.state.count + 1})
+  //   }
+  // }
+
   render() {
-    const firstCardProps = testCards[0]
+    const { cards } = this.props
+    const { index } = this.state
 
     return (
-      <Card {...firstCardProps} />
+      <div className="card-stack">
+        <Card className="first-card" {...cards[index]} />
+        <Card className="second-card" {...cards[index + 1]} />
+        <Card className="third-card" {...cards[index + 2]} />
+      </div>
     )
   }
 }

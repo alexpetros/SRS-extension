@@ -19,9 +19,9 @@ const styles = {
 }
 
 function InfoCard(props) {
-  const { classes, title, content } = props
+  const { classes, title, content, className } = props
   return (
-    <Card className={classes.card}>
+    <Card className={`${classes.card} ${className} info-card`}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
