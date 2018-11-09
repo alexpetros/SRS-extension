@@ -1,5 +1,5 @@
 import React from 'react'
-import CardStack from './card-stack'
+import Button from 'react-bootstrap/lib/Button'
 
 const testCards = [
   {
@@ -23,7 +23,9 @@ const testCards = [
 
 const App = () => {
   return (
-    <CardStack cards={testCards} />
+    <div>
+      <Button bsStyle="primary">Primary</Button>
+    </div>
   )
 }
 

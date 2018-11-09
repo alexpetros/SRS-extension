@@ -1,3 +1,6 @@
+// Bootstrap styles
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+
 body, html {
   font-family: "Roboto", sans-serif;
   background-color: rgb(66, 244, 241);
@@ -8,38 +11,8 @@ body, html {
   align-items: center;
 }
 
-#main {
-  position: absolute;
-  margin: auto;
-}
-
-// probably not idiomatic with the API (come back to this)
-// https://material-ui.com/customization/css-in-js/
-.card-stack {
-  // display: grid;
-
-  .info-card {
-    // position: relative;
-  }
-
-  .first-card {
-    z-index: 3;
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .second-card {
-    z-index: 2;
-    grid-column: 1;
-    grid-row: 1;
-
-    top: 20px;
-    left: 10px;
-  }
-
-  .third-card {
-    z-index: 1;
-    top: 20px;
-    left: 20px;
+.btn.btn-primary {
+  &:focus{
+    outline: 0;
   }
 }
