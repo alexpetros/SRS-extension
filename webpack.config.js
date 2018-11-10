@@ -1,9 +1,12 @@
-// set up from chrome extensions with a little help from these code samples:
+// set up for chrome extensions with a little help from these code samples:
 // https://gist.github.com/ayastreb/8f094c7ea17eb36cb1e6b5b9db9042c0
 // https://github.com/checkly/puppeteer-recorder/blob/master/package.json
 
 // set to 'production' or 'development' in your env
 const env = process.env.NODE_ENV || 'development'
+
+require('dotenv').config()
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -15,6 +18,7 @@ module.exports = {
   mode: env,
   entry: ['babel-polyfill', './src'], // this is where our app lives
   devtool: 'source-map', // this enables debugging with source in chrome devtools
+  node: { fs: 'empty' }, // weird env2 + webpack bug
   module: {
     rules: [
       {
@@ -58,6 +62,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.EnvironmentPlugin(['APP_ACCESS_KEY', 'APP_SECRET']),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
