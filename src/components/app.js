@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/lib/Button'
-import Unsplash from 'unsplash-js'
+import Unsplash, { toJson } from 'unsplash-js'
 
 const unsplash = new Unsplash({
   applicationId: process.env.APP_ACCESS_KEY,
@@ -12,17 +12,36 @@ export default class App extends Component {
   constructor(props) {
     super(props)
 
-    this.testImage = unsplash.photos.getPhoto('ibpQdaorT8')
+    this.state = {
+      locked: true,
+    }
+
+    unsplash.photos.getPhoto('KL9IanHzSE4')
+      .then(toJson)
+      .then((res) => {
+        this.setState({ image: res.urls.full })
+      })
+
+    this.onYesClick = this.onYesClick.bind(this)
   }
 
+  onYesClick() {
+    this.setState({ locked: false })
+  }
 
   render() {
-    const backgroundStlye = { background: `url(${this.testImage})` }
+    const { image, locked } = this.state
+    const backgroundClass = `background ${locked ? 'blurred' : ''}`
+    const backgroundStlye = { backgroundImage: `url(${image})` || '' }
 
     return (
-      <div className="background" style={backgroundStlye}>
-        <Button bsStyle="primary">Primary</Button>
-      </div>
+      <>
+        <div className={backgroundClass} style={backgroundStlye} />
+        <div className="content">
+          <div>Other content</div>
+          <Button onClick={this.onYesClick} bsStyle="primary">Unlock</Button>
+        </div>
+      </>
     )
   }
 }
