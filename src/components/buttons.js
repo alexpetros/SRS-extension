@@ -4,13 +4,25 @@ import Button from 'react-bootstrap/lib/Button'
 
 
 export const ButtonRow = (props) => {
-  const { onYesClick } = props
+  const { onYesClick, activeYes, activeNo } = props
 
   return (
     <div className="button-row-container">
       <div className="button-row">
-        <Button onClick={onYesClick} bsStyle="primary">Yes</Button>
-        <Button onClick={onYesClick} bsStyle="danger">No</Button>
+        <Button
+          bsStyle="primary"
+          onClick={onYesClick}
+          active={activeYes}
+        >
+          Yes
+        </Button>
+        <Button
+          bsStyle="danger"
+          onClick={onYesClick}
+          active={activeNo}
+        >
+          No
+        </Button>
       </div>
       <div className="button-row">
         <div>(F)</div>
