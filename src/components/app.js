@@ -1,6 +1,7 @@
+/* eslint no-unused-vars:0 */
 import React, { Component } from 'react'
-import Button from 'react-bootstrap/lib/Button'
 import Unsplash, { toJson } from 'unsplash-js'
+import MemoryModule from './memory-module'
 
 const unsplash = new Unsplash({
   applicationId: process.env.APP_ACCESS_KEY,
@@ -14,14 +15,16 @@ export default class App extends Component {
 
     this.state = {
       locked: true,
+      // temporary default photo bc eduroam blows
+      image: '../img/default-photo.jpeg',
     }
 
     // KL9IanHzSE4 - space
-    unsplash.photos.getPhoto('MAKllTW1ckw')
-      .then(toJson)
-      .then((res) => {
-        this.setState({ image: res.urls.full })
-      })
+    // unsplash.photos.getPhoto('MAKllTW1ckw')
+    //   .then(toJson)
+    //   .then((res) => {
+    //     this.setState({ image: res.urls.full })
+    //   })
 
     this.onYesClick = this.onYesClick.bind(this)
   }
@@ -39,8 +42,7 @@ export default class App extends Component {
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
-          <div>Other content</div>
-          <Button onClick={this.onYesClick} bsStyle="primary">Unlock</Button>
+          <MemoryModule onYesClick={this.onYesClick} />
         </div>
       </>
     )
