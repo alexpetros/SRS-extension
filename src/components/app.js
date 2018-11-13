@@ -16,7 +16,8 @@ export default class App extends Component {
       locked: true,
     }
 
-    unsplash.photos.getPhoto('KL9IanHzSE4')
+    // KL9IanHzSE4 - space
+    unsplash.photos.getPhoto('MAKllTW1ckw')
       .then(toJson)
       .then((res) => {
         this.setState({ image: res.urls.full })

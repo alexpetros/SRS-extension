@@ -5,15 +5,14 @@ body, html {
   font-family: "Roboto", sans-serif;
   height: 100%;
   width: 100%;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
 }
 
 #main {
   height: 100%;
   width: 100%;
   overflow: hidden;
+
+  color: white;
 
   display: flex;
   flex-direction: column;
@@ -33,9 +32,11 @@ body, html {
 
   background-position: center;
   background-size: cover;
+  transition-property: filter;
+  transition-duration: .5s;
 
   &.blurred {
-    filter: blur(5px);
+    filter: blur(5px) brightness(50%);
   }
 }
 
@@ -44,9 +45,8 @@ body, html {
   z-index: 2;
 
   .btn.btn-primary {
-  &:focus{
-    outline: 0;
+    &:focus{
+      outline: 0;
+    }
   }
-}
-
 }
