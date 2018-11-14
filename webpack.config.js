@@ -19,10 +19,13 @@ module.exports = {
   entry: ['babel-polyfill', './src'], // this is where our app lives
   devtool: 'source-map', // this enables debugging with source in chrome devtools
   node: { fs: 'empty' }, // weird env2 + webpack bug
+  resolve: {
+    extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [
           { loader: 'babel-loader' },

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ContentCard from './content-card'
 import { ButtonRow } from './buttons'
 
 class MemoryModule extends Component {
@@ -16,19 +17,22 @@ class MemoryModule extends Component {
   }
 
   componentDidMount() {
+    // listeners need to be document-wide
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keyup', this.handleKeyUp)
   }
 
   handleKeyDown(event) {
+    const { setBlur } = this.props
+
     switch (event.key) {
       case 'f':
         this.setState({ activeYes: true })
-        this.props.setBlur(false)
+        setBlur(false)
         break
       case 'j':
         this.setState({ activeNo: true })
-        this.props.setBlur(true)
+        setBlur(true)
         break
       default: break
     }
@@ -47,17 +51,19 @@ class MemoryModule extends Component {
   }
 
   render() {
-    const { onYesClick } = this.props
-    const { activeYes, activeNo } = this.state
+    const { onYesClick, card } = this.props
+    const { activeYes, activeNo, displayAnswer } = this.state
 
     return (
       <div className="memory-module">
-        <div>Other content</div>
+        <ContentCard
+          content={card.content}
+          answer={card.answer}
+          displayAnswer={displayAnswer} />
         <ButtonRow
           onYesClick={onYesClick}
           activeYes={activeYes}
-          activeNo={activeNo}
-        />
+          activeNo={activeNo} />
       </div>
     )
   }

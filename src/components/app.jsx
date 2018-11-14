@@ -3,6 +3,13 @@ import React, { Component } from 'react'
 import Unsplash, { toJson } from 'unsplash-js'
 import MemoryModule from './memory-module'
 
+
+const testCard = {
+  content: 'Airspeed velocity of an unladen swallow',
+  answer: '150mph',
+}
+
+
 const unsplash = new Unsplash({
   applicationId: process.env.APP_ACCESS_KEY,
   secret: process.env.APP_SECRET,
@@ -42,28 +49,9 @@ export default class App extends Component {
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
-          <MemoryModule setBlur={this.setBlur} />
+          <MemoryModule setBlur={this.setBlur} card={testCard} />
         </div>
       </>
     )
   }
 }
-
-// const testCards = [
-//   {
-//     title: 'Card #1',
-//     content: 'Airspeed velocity of an unladen swallow',
-//   },
-//   {
-//     title: 'Card #2',
-//     content: 'Airspeed velocity of an unladen swallow',
-//   },
-//   {
-//     title: 'Card #3',
-//     content: 'Airspeed velocity of an unladen swallow',
-//   },
-//   {
-//     title: 'Card #4',
-//     content: 'Airspeed velocity of an unladen swallow',
-//   },
-// ]
