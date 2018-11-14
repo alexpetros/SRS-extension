@@ -24,9 +24,11 @@ class MemoryModule extends Component {
     switch (event.key) {
       case 'f':
         this.setState({ activeYes: true })
+        this.props.setBlur(false)
         break
       case 'j':
         this.setState({ activeNo: true })
+        this.props.setBlur(true)
         break
       default: break
     }

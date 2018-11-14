@@ -2,7 +2,6 @@
 import React from 'react'
 import Button from 'react-bootstrap/lib/Button'
 
-
 export const ButtonRow = (props) => {
   const { onYesClick, activeYes, activeNo } = props
 
@@ -12,15 +11,13 @@ export const ButtonRow = (props) => {
         <Button
           bsStyle="primary"
           onClick={onYesClick}
-          active={activeYes}
-        >
+          active={activeYes}>
           Yes
         </Button>
         <Button
           bsStyle="danger"
           onClick={onYesClick}
-          active={activeNo}
-        >
+          active={activeNo}>
           No
         </Button>
       </div>
@@ -31,3 +28,4 @@ export const ButtonRow = (props) => {
     </div>
   )
 }
+

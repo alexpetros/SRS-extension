@@ -14,7 +14,7 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      locked: true,
+      isBlurred: true,
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
     }
@@ -26,23 +26,23 @@ export default class App extends Component {
     //     this.setState({ image: res.urls.full })
     //   })
 
-    this.onYesClick = this.onYesClick.bind(this)
+    this.setBlur = this.setBlur.bind(this)
   }
 
-  onYesClick() {
-    this.setState({ locked: false })
+  setBlur(isBlurred) {
+    this.setState({ isBlurred })
   }
 
   render() {
-    const { image, locked } = this.state
-    const backgroundClass = `background ${locked ? 'blurred' : ''}`
+    const { image, isBlurred } = this.state
+    const backgroundClass = `background ${isBlurred ? 'blurred' : ''}`
     const backgroundStlye = { backgroundImage: `url(${image})` || '' }
 
     return (
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
-          <MemoryModule onYesClick={this.onYesClick} />
+          <MemoryModule setBlur={this.setBlur} />
         </div>
       </>
     )
