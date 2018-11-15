@@ -43,10 +43,17 @@ body, html {
 .content {
   position: fixed;
   z-index: 2;
+  height: 300px;
+
+  .finished-message {
+    font-size: 3em;
+    font-weight: bold;
+    color: white;
+  }
 }
 
 .memory-module {
-  width: 700px;
+  width: 600px;
 
   display: flex;
   flex-direction: column;
@@ -54,10 +61,22 @@ body, html {
 
   .card-container {
     height: 300px;
-    width: 500px;
     margin: auto;
 
+    .card-content {
+      margin-bottom: 50px;
 
+      font-size: 2.5em;
+      font-weight: bold;
+    }
+
+    .card-answer {
+      font-size: 1.5em;
+    }
+
+    &.hidden {
+      display: hidden;
+    }
   }
 
   .button-row-container {
@@ -65,18 +84,18 @@ body, html {
 
     display: flex;
     flex-direction: column;
+  }
 
-    .button-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
+  .button-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 
-      .btn {
-        width: 120px;
+    .btn {
+      width: 120px;
 
-        &:focus{
-          outline: 0;
-        }
+      &:focus{
+        outline: 0;
       }
     }
   }

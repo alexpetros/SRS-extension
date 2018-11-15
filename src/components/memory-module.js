@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ContentCard from './content-card'
-import { ButtonRow } from './buttons'
+import { AnswerButtonRow, ConfirmButtonRow } from './buttons'
 
 class MemoryModule extends Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class MemoryModule extends Component {
       displayAnswer: false,
       activeYes: false,
       activeNo: false,
+      activeConfirm: false,
     }
 
     this.handleKeyDown = this.handleKeyDown.bind(this)
@@ -22,37 +23,67 @@ class MemoryModule extends Component {
     document.addEventListener('keyup', this.handleKeyUp)
   }
 
+  /** enable button press-down effect */
   handleKeyDown(event) {
-    const { setBlur } = this.props
+    const { displayAnswer } = this.state
+    let newState = this.state
 
-    switch (event.key) {
-      case 'f':
-        this.setState({ activeYes: true })
-        setBlur(false)
-        break
-      case 'j':
-        this.setState({ activeNo: true })
-        setBlur(true)
-        break
-      default: break
+    if (!displayAnswer && event.key === 'f') {
+      newState = { activeYes: true }
+    } else if (!displayAnswer && event.key === 'j') {
+      newState = { activeNo: true }
+    } else if (displayAnswer) {
+      newState = { activeConfirm: true }
     }
+
+    this.setState(newState)
   }
 
+  /** remove press-down effect and call appropriate container method */
   handleKeyUp(event) {
-    switch (event.key) {
-      case 'f':
-        this.setState({ activeYes: false })
-        break
-      case 'j':
-        this.setState({ activeNo: false })
-        break
-      default: break
+    const { displayAnswer } = this.state
+    const { onYesClick, onNoClick, onConfirmClick } = this.props
+    let newState = this.state
+
+    if (!displayAnswer && event.key === 'f') {
+      newState = { activeYes: false }
+      onYesClick()
+    } else if (!displayAnswer && event.key === 'j') {
+      newState = { activeNo: false, displayAnswer: true }
+      onNoClick()
+    } else if (displayAnswer) {
+      newState = { activeConfirm: false, displayAnswer: false }
+      onConfirmClick()
     }
+
+    this.setState(newState)
   }
 
   render() {
-    const { onYesClick, card } = this.props
-    const { activeYes, activeNo, displayAnswer } = this.state
+    const { onYesClick, onConfirmClick, card } = this.props
+    const { displayAnswer, activeYes, activeNo, activeConfirm } = this.state
+
+    if (!card) {
+      return (
+        <div className="finished-message">All done!</div>
+      )
+    }
+
+    let buttonRow
+    if (displayAnswer) {
+      buttonRow = (
+        <ConfirmButtonRow
+          onClick={onConfirmClick}
+          active={activeConfirm} />
+      )
+    } else {
+      buttonRow = (
+        <AnswerButtonRow
+          onYesClick={onYesClick}
+          activeYes={activeYes}
+          activeNo={activeNo} />
+      )
+    }
 
     return (
       <div className="memory-module">
@@ -60,10 +91,7 @@ class MemoryModule extends Component {
           content={card.content}
           answer={card.answer}
           displayAnswer={displayAnswer} />
-        <ButtonRow
-          onYesClick={onYesClick}
-          activeYes={activeYes}
-          activeNo={activeNo} />
+        {buttonRow}
       </div>
     )
   }

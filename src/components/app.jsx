@@ -22,6 +22,8 @@ export default class App extends Component {
 
     this.state = {
       isBlurred: true,
+      currentCard: testCard,
+      nextCard: null,
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
     }
@@ -33,15 +35,42 @@ export default class App extends Component {
     //     this.setState({ image: res.urls.full })
     //   })
 
-    this.setBlur = this.setBlur.bind(this)
+    this.onYesClick = this.onYesClick.bind(this)
+    this.onNoClick = this.onNoClick.bind(this)
+    this.onConfirmClick = this.onConfirmClick.bind(this)
   }
 
-  setBlur(isBlurred) {
-    this.setState({ isBlurred })
+  onYesClick() {
+    const { nextCard } = this.state
+
+    if (!nextCard) {
+      this.setState({
+        isBlurred: false,
+        currentCard: null,
+      })
+    }
+  }
+
+  onNoClick() {
+    const { currentCard } = this.state
+    if (currentCard) {
+      this.setState({ isBlurred: true })
+    }
+  }
+
+  onConfirmClick() {
+    const { nextCard } = this.state
+
+    if (!nextCard) {
+      this.setState({
+        isBlurred: false,
+        currentCard: null,
+      })
+    }
   }
 
   render() {
-    const { image, isBlurred } = this.state
+    const { currentCard, image, isBlurred } = this.state
     const backgroundClass = `background ${isBlurred ? 'blurred' : ''}`
     const backgroundStlye = { backgroundImage: `url(${image})` || '' }
 
@@ -49,7 +78,11 @@ export default class App extends Component {
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
-          <MemoryModule setBlur={this.setBlur} card={testCard} />
+          <MemoryModule
+            onYesClick={this.onYesClick}
+            onNoClick={this.onNoClick}
+            onConfirmClick={this.onConfirmClick}
+            card={currentCard} />
         </div>
       </>
     )

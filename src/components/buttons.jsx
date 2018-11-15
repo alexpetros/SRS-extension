@@ -2,7 +2,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/lib/Button'
 
-export const ButtonRow = (props) => {
+export const AnswerButtonRow = (props) => {
   const { onYesClick, activeYes, activeNo } = props
 
   return (
@@ -24,6 +24,26 @@ export const ButtonRow = (props) => {
       <div className="button-row">
         <div>(F)</div>
         <div>(J)</div>
+      </div>
+    </div>
+  )
+}
+
+export const ConfirmButtonRow = (props) => {
+  const { onClick, active } = props
+
+  return (
+    <div>
+      <div className="button-row">
+        <Button
+          bsStyle="success"
+          onClick={onClick}
+          active={active}>
+          Got it
+        </Button>
+      </div>
+      <div className="button-row">
+        <div>(Any key)</div>
       </div>
     </div>
   )
