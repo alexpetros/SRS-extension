@@ -3,12 +3,7 @@ import React, { Component } from 'react'
 import Unsplash, { toJson } from 'unsplash-js'
 import MemoryModule from './memory-module'
 
-
-const testCard = {
-  content: 'Airspeed velocity of an unladen swallow',
-  answer: '150mph',
-}
-
+import { getNextCard } from '../api/index'
 
 const unsplash = new Unsplash({
   applicationId: process.env.APP_ACCESS_KEY,
@@ -22,7 +17,7 @@ export default class App extends Component {
 
     this.state = {
       isBlurred: true,
-      currentCard: testCard,
+      currentCard: null,
       nextCard: null,
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
@@ -38,6 +33,12 @@ export default class App extends Component {
     this.onYesClick = this.onYesClick.bind(this)
     this.onNoClick = this.onNoClick.bind(this)
     this.onConfirmClick = this.onConfirmClick.bind(this)
+  }
+
+  componentDidMount() {
+    getNextCard().then((card) => {
+      this.setState({ currentCard: card })
+    })
   }
 
   onYesClick() {
