@@ -1,96 +1,89 @@
 import React, { Component } from 'react'
 import ContentCard from './content-card'
-import { AnswerButtonRow, ConfirmButtonRow } from './buttons'
+import { AnswerButtonRow, SuccessButtonRow, FailureButtonRow } from './buttons'
+
+const QUESTION_VIEW = 'QUESTION'
+const SUCCESS_VIEW = 'SUCCESS'
+const FAILURE_VIEW = 'FAILURE'
+
+const LOW_CONFIDENCE_FAILURE = 0
+const MED_CONFIDENCE_FAILURE = 0.2
+const HIGH_CONFIDENCE_FAILURE = 0.4
+const LOW_CONFIDENCE_SUCCESS = 0.6
+const MED_CONFIDENCE_SUCCESS = 0.8
+const HIGH_CONFIDENCE_SUCCESS = 1
 
 class MemoryModule extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      displayAnswer: false,
-      activeYes: false,
-      activeNo: false,
-      activeConfirm: false,
+      view: QUESTION_VIEW,
     }
 
-    this.handleKeyDown = this.handleKeyDown.bind(this)
-    this.handleKeyUp = this.handleKeyUp.bind(this)
+    this.onYesClick = this.onYesClick.bind(this)
+    this.onNoClick = this.onNoClick.bind(this)
+    this.sendResponseAndReset = this.sendResponseAndReset.bind(this)
   }
 
-  componentDidMount() {
-    // listeners need to be document-wide
-    document.addEventListener('keydown', this.handleKeyDown)
-    document.addEventListener('keyup', this.handleKeyUp)
+  onYesClick() {
+    this.setState({ view: SUCCESS_VIEW })
   }
 
-  /** enable button press-down effect */
-  handleKeyDown(event) {
-    const { displayAnswer } = this.state
-    let newState = this.state
-
-    if (!displayAnswer && event.key === 'f') {
-      newState = { activeYes: true }
-    } else if (!displayAnswer && event.key === 'j') {
-      newState = { activeNo: true }
-    } else if (displayAnswer) {
-      newState = { activeConfirm: true }
-    }
-
-    this.setState(newState)
+  onNoClick() {
+    this.setState({ view: FAILURE_VIEW })
   }
 
-  /** remove press-down effect and call appropriate container method */
-  handleKeyUp(event) {
-    const { displayAnswer } = this.state
-    const { onYesClick, onNoClick, onConfirmClick } = this.props
-    let newState = this.state
-
-    if (!displayAnswer && event.key === 'f') {
-      newState = { activeYes: false }
-      onYesClick()
-    } else if (!displayAnswer && event.key === 'j') {
-      newState = { activeNo: false, displayAnswer: true }
-      onNoClick()
-    } else if (displayAnswer) {
-      newState = { activeConfirm: false, displayAnswer: false }
-      onConfirmClick()
-    }
-
-    this.setState(newState)
+  sendResponseAndReset(performanceRating) {
+    const { sendResponse } = this.props
+    this.setState({ view: QUESTION_VIEW }, () => {
+      sendResponse(performanceRating)
+    })
   }
 
   render() {
-    const { onYesClick, onConfirmClick, card } = this.props
-    const { displayAnswer, activeYes, activeNo, activeConfirm } = this.state
+    const { card } = this.props
+    const { view } = this.state
+    let buttonRow
 
     if (!card) {
-      return (
-        <div className="finished-message">All done!</div>
-      )
+      return <div className="finished-message">All done!</div>
     }
 
-    let buttonRow
-    if (displayAnswer) {
-      buttonRow = (
-        <ConfirmButtonRow
-          onClick={onConfirmClick}
-          active={activeConfirm} />
-      )
-    } else {
-      buttonRow = (
-        <AnswerButtonRow
-          onYesClick={onYesClick}
-          activeYes={activeYes}
-          activeNo={activeNo} />
-      )
+    switch (view) {
+      case QUESTION_VIEW:
+        buttonRow = (
+          <AnswerButtonRow
+            onYesClick={this.onYesClick}
+            onNoClick={this.onNoClick} />
+        )
+        break
+      case SUCCESS_VIEW:
+        buttonRow = (
+          <SuccessButtonRow
+            onLowClick={() => { this.sendResponseAndReset(LOW_CONFIDENCE_SUCCESS) }}
+            onMedClick={() => { this.sendResponseAndReset(MED_CONFIDENCE_SUCCESS) }}
+            onHighClick={() => { this.sendResponseAndReset(HIGH_CONFIDENCE_SUCCESS) }} />
+        )
+        break
+      case FAILURE_VIEW:
+        buttonRow = (
+          <FailureButtonRow
+            onLowClick={() => { this.sendResponseAndReset(LOW_CONFIDENCE_FAILURE) }}
+            onMedClick={() => { this.sendResponseAndReset(MED_CONFIDENCE_FAILURE) }}
+            onHighClick={() => { this.sendResponseAndReset(HIGH_CONFIDENCE_FAILURE) }} />
+        )
+        break
+      default:
+        break
     }
-
     return (
       <div className="memory-module">
         <ContentCard
           content={card.content}
           answer={card.answer}
-          displayAnswer={displayAnswer} />
+          displayAnswer={view === FAILURE_VIEW}
+          imageUrl={card.imageUrl} />
         {buttonRow}
       </div>
     )

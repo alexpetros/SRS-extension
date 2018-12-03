@@ -43,7 +43,7 @@ body, html {
 .content {
   position: fixed;
   z-index: 2;
-  height: 300px;
+  height: 100%;
 
   .finished-message {
     font-size: 3em;
@@ -53,34 +53,46 @@ body, html {
 }
 
 .memory-module {
-  width: 600px;
+  height: 100%;
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .card-container {
-    height: 300px;
-    margin: auto;
+    margin-bottom: 50px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .card-content {
       margin-bottom: 50px;
+      text-align: center;
 
-      font-size: 2.5em;
+      font-size: 2em;
       font-weight: bold;
     }
 
     .card-answer {
       font-size: 1.5em;
+
+      &.isHidden {
+        visibility: hidden;
+      }
     }
 
-    &.hidden {
-      display: hidden;
+    img {
+      max-height: 350px;
     }
   }
 
   .button-row-container {
-    width: 60%;
+    width: 80%;
 
     display: flex;
     flex-direction: column;

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Unsplash, { toJson } from 'unsplash-js'
 import MemoryModule from './memory-module'
 
-import { getNextCard } from '../api/index'
+import { getNextCard, sendCardResponse } from '../api'
 
 const unsplash = new Unsplash({
   applicationId: process.env.APP_ACCESS_KEY,
@@ -18,7 +18,6 @@ export default class App extends Component {
     this.state = {
       isBlurred: true,
       currentCard: null,
-      nextCard: null,
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
     }
@@ -29,45 +28,24 @@ export default class App extends Component {
     //   .then((res) => {
     //     this.setState({ image: res.urls.full })
     //   })
-
-    this.onYesClick = this.onYesClick.bind(this)
-    this.onNoClick = this.onNoClick.bind(this)
-    this.onConfirmClick = this.onConfirmClick.bind(this)
+    this.sendResponse = this.sendResponse.bind(this)
   }
 
   componentDidMount() {
+    this.loadCard()
+  }
+
+  loadCard() {
     getNextCard().then((card) => {
       this.setState({ currentCard: card })
     })
   }
 
-  onYesClick() {
-    const { nextCard } = this.state
-
-    if (!nextCard) {
-      this.setState({
-        isBlurred: false,
-        currentCard: null,
-      })
-    }
-  }
-
-  onNoClick() {
+  sendResponse(performanceRating) {
     const { currentCard } = this.state
-    if (currentCard) {
-      this.setState({ isBlurred: true })
-    }
-  }
-
-  onConfirmClick() {
-    const { nextCard } = this.state
-
-    if (!nextCard) {
-      this.setState({
-        isBlurred: false,
-        currentCard: null,
-      })
-    }
+    sendCardResponse(currentCard._id, performanceRating).then(() => {
+      this.loadCard()
+    })
   }
 
   render() {
@@ -80,9 +58,7 @@ export default class App extends Component {
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
           <MemoryModule
-            onYesClick={this.onYesClick}
-            onNoClick={this.onNoClick}
-            onConfirmClick={this.onConfirmClick}
+            sendResponse={this.sendResponse}
             card={currentCard} />
         </div>
       </>

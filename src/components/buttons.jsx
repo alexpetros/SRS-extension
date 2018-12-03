@@ -1,51 +1,148 @@
-/* eslint import/prefer-default-export: 0 */
-import React from 'react'
+/* eslint import/prefer-default-export:0 react/jsx-one-expression-per-line:0 */
+import React, { Component } from 'react'
 import Button from 'react-bootstrap/lib/Button'
 
-export const AnswerButtonRow = (props) => {
-  const { onYesClick, activeYes, activeNo } = props
+/**
+ * props.buttons is an array of buttons with the following properties:
+ * { text, key, onClick, style }
+ */
+class ButtonRow extends Component {
+  constructor(props) {
+    super(props)
 
-  return (
-    <div className="button-row-container">
-      <div className="button-row">
+    this.state = {
+      activeKey: '',
+    }
+    this.enabledKeys = props.buttons.map(button => button.key)
+
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleKeyUp = this.handleKeyUp.bind(this)
+  }
+
+  componentDidMount() {
+    // listeners need to be document-wide
+    document.addEventListener('keydown', this.handleKeyDown)
+    document.addEventListener('keyup', this.handleKeyUp)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown)
+    document.removeEventListener('keyup', this.handleKeyUp)
+  }
+
+  handleKeyDown(event) {
+    const { activeKey } = this.state
+    const isEnabled = this.enabledKeys.includes(event.key)
+
+    if (isEnabled && activeKey === '') {
+      this.setState({ activeKey: event.key })
+    }
+  }
+
+  /** remove press-down effect and call appropriate container method */
+  handleKeyUp(event) {
+    const { activeKey } = this.state
+    const { buttons } = this.props
+
+    if (event.key === activeKey) {
+      // onClick in the callback ensures that the component doesn't unmount first
+      const activeButton = buttons.find(button => button.key === event.key)
+      this.setState({ activeKey: '' }, activeButton.onClick)
+    }
+  }
+
+  render() {
+    const { activeKey } = this.state
+    const { buttons } = this.props
+
+    const buttonsRow = buttons.map((button) => {
+      return (
         <Button
-          bsStyle="primary"
-          onClick={onYesClick}
-          active={activeYes}>
-          Yes
+          bsStyle={button.style}
+          onClick={button.onClick}
+          active={button.key === activeKey}
+          key={button.key}>
+          {button.text}
         </Button>
-        <Button
-          bsStyle="danger"
-          onClick={onYesClick}
-          active={activeNo}>
-          No
-        </Button>
+      )
+    })
+    const buttonLabels = buttons.map(button => <div key={button.key}>({ button.key })</div>)
+
+    return (
+      <div className="button-row-container">
+        <div className="button-row">{buttonsRow}</div>
+        <div className="button-row">{buttonLabels}</div>
       </div>
-      <div className="button-row">
-        <div>(F)</div>
-        <div>(J)</div>
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
-export const ConfirmButtonRow = (props) => {
-  const { onClick, active } = props
+export const AnswerButtonRow = (props) => {
+  const { onYesClick, onNoClick } = props
+  const buttons = [
+    {
+      text: 'No',
+      key: 'f',
+      onClick: onNoClick,
+      style: 'danger',
+    },
+    {
+      text: 'Yes',
+      key: 'j',
+      onClick: onYesClick,
+      style: 'primary',
+    },
+  ]
+  return <ButtonRow buttons={buttons} />
+}
 
-  return (
-    <div>
-      <div className="button-row">
-        <Button
-          bsStyle="success"
-          onClick={onClick}
-          active={active}>
-          Got it
-        </Button>
-      </div>
-      <div className="button-row">
-        <div>(Any key)</div>
-      </div>
-    </div>
-  )
+export const FailureButtonRow = (props) => {
+  const { onLowClick, onMedClick, onHighClick } = props
+  const buttons = [
+    {
+      text: 'No idea',
+      key: 'f',
+      onClick: onLowClick,
+      style: 'danger',
+    },
+    {
+      text: 'Sort of',
+      key: ' ',
+      onClick: onMedClick,
+      style: 'warning',
+    },
+    {
+      text: 'Almost',
+      key: 'j',
+      onClick: onHighClick,
+      style: 'success',
+    },
+  ]
+  return <ButtonRow buttons={buttons} />
+}
+
+export const SuccessButtonRow = (props) => {
+  const { onLowClick, onMedClick, onHighClick } = props
+  const buttons = [
+    {
+      text: 'Barely',
+      key: 'f',
+      onClick: onLowClick,
+      style: 'danger',
+    },
+    {
+      text: 'Pretty well',
+      key: ' ',
+      onClick: onMedClick,
+      style: 'warning',
+    },
+    {
+      text: 'Perfectly',
+      key: 'j',
+      onClick: onHighClick,
+      style: 'success',
+    },
+  ]
+  return <ButtonRow buttons={buttons} />
 }
 
