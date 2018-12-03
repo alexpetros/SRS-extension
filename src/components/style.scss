@@ -44,8 +44,12 @@ body, html {
   position: fixed;
   z-index: 2;
   height: 100%;
+  width: 100%;
 
   .finished-message {
+    margin-top: 50px;
+    text-align: center;
+
     font-size: 3em;
     font-weight: bold;
     color: white;
