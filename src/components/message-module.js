@@ -1,7 +1,13 @@
 import React from 'react'
 
-export default function MessageModule(props) {
+const MessageModule = (props) => {
   const { message } = props
 
-  return <div>{message}</div>
+  return (
+    <div className="message-module">
+      <div className="message">{message}</div>
+    </div>
+  )
 }
+
+export default MessageModule

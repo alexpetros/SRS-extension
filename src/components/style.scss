@@ -45,15 +45,6 @@ body, html {
   z-index: 2;
   height: 100%;
   width: 100%;
-
-  .finished-message {
-    margin-top: 50px;
-    text-align: center;
-
-    font-size: 3em;
-    font-weight: bold;
-    color: white;
-  }
 }
 
 .memory-module {
@@ -90,6 +81,10 @@ body, html {
       }
     }
 
+    &.isHidden {
+      visibility: hidden;
+    }
+
     img {
       max-height: 350px;
     }
@@ -114,5 +109,29 @@ body, html {
         outline: 0;
       }
     }
+  }
+}
+
+.message-module {
+  height: 100px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .message {
+    height: 100%;
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 0px 0px 5px 5px;
+
+    background: rgba(0, 0, 0, .5);
+    opacity: 40%;
+
+    font-size: 3em;
+    font-weight: bold;
+    color: white;
   }
 }

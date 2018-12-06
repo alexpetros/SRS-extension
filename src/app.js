@@ -22,7 +22,6 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      isBlurred: true,
       currentCard: null,
       message: '',
       // temporary default photo bc eduroam blows
@@ -45,13 +44,14 @@ export default class App extends Component {
   loadCard() {
     getNextCard()
       .then((card) => {
-        this.setState({ currentCard: card })
+        const message = card ? '' : FINISHED_MSG
+        this.setState({ currentCard: card, message })
       })
       .catch((err) => {
         if (!err.response) {
           this.setState({ currentCard: null, message: CONNECTION_REFUSED_MSG })
         } else {
-          this.setState({ currentCard: null, message: FINISHED_MSG })
+          this.setState({ currentCard: null })
         }
       })
   }
@@ -63,14 +63,23 @@ export default class App extends Component {
     })
   }
 
+  isBlurred() {
+    const { currentCard } = this.state
+    return currentCard !== null
+  }
+
   render() {
-    const { currentCard, image, isBlurred, message } = this.state
-    const backgroundClass = `background ${isBlurred ? 'blurred' : ''}`
+    const { currentCard, image, message } = this.state
+    const backgroundClass = `background ${this.isBlurred() ? 'blurred' : ''}`
     const backgroundStlye = { backgroundImage: `url(${image})` || '' }
 
     let mainModule
     if (currentCard) {
-      mainModule = <MemoryModule sendResponse={this.sendResponse} card={currentCard} />
+      mainModule = (
+        <MemoryModule
+          sendResponse={this.sendResponse}
+          card={currentCard} />
+      )
     } else {
       mainModule = <MessageModule message={message} />
     }
