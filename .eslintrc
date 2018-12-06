@@ -18,6 +18,7 @@
         "semi": [1, "never"],
         "brace-style": [2, "1tbs", {"allowSingleLine" : true}],
         "strict": 0,
+        "spaced-comment": 0,
         "quotes": [2, "single"],
         "no-else-return": 0,
         "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],

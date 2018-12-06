@@ -1,9 +1,15 @@
 /* eslint no-unused-vars:0 */
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import Unsplash, { toJson } from 'unsplash-js'
-import MemoryModule from './memory-module'
 
-import { getNextCard, sendCardResponse } from '../api'
+import './components/style.scss'
+
+import { MemoryModule, MessageModule } from './components'
+import { getNextCard, sendCardResponse } from './api'
+
+const CONNECTION_REFUSED_MSG = 'Sorry, the server is not responsing.'
+const FINISHED_MSG = 'All done!'
 
 const unsplash = new Unsplash({
   applicationId: process.env.APP_ACCESS_KEY,
@@ -18,6 +24,7 @@ export default class App extends Component {
     this.state = {
       isBlurred: true,
       currentCard: null,
+      message: '',
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
     }
@@ -36,9 +43,17 @@ export default class App extends Component {
   }
 
   loadCard() {
-    getNextCard().then((card) => {
-      this.setState({ currentCard: card })
-    })
+    getNextCard()
+      .then((card) => {
+        this.setState({ currentCard: card })
+      })
+      .catch((err) => {
+        if (!err.response) {
+          this.setState({ currentCard: null, message: CONNECTION_REFUSED_MSG })
+        } else {
+          this.setState({ currentCard: null, message: FINISHED_MSG })
+        }
+      })
   }
 
   sendResponse(performanceRating) {
@@ -49,19 +64,27 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentCard, image, isBlurred } = this.state
+    const { currentCard, image, isBlurred, message } = this.state
     const backgroundClass = `background ${isBlurred ? 'blurred' : ''}`
     const backgroundStlye = { backgroundImage: `url(${image})` || '' }
+
+    let mainModule
+    if (currentCard) {
+      mainModule = <MemoryModule sendResponse={this.sendResponse} card={currentCard} />
+    } else {
+      mainModule = <MessageModule message={message} />
+    }
+
 
     return (
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
-          <MemoryModule
-            sendResponse={this.sendResponse}
-            card={currentCard} />
+          {mainModule}
         </div>
       </>
     )
   }
 }
+
+ReactDOM.render(<App />, document.getElementById('main'))

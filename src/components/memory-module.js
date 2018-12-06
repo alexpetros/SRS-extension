@@ -46,10 +46,6 @@ class MemoryModule extends Component {
     const { view } = this.state
     let buttonRow
 
-    if (!card) {
-      return <div className="finished-message">All done!</div>
-    }
-
     switch (view) {
       case QUESTION_VIEW:
         buttonRow = (

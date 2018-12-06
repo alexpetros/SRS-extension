@@ -2,11 +2,13 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/lib/Button'
 
-/**
- * props.buttons is an array of buttons with the following properties:
- * { text, key, onClick, style }
- */
+///////////////////////////////
+// Generic stated button row //
+///////////////////////////////
+
 class ButtonRow extends Component {
+  // props.buttons is an array of buttons with the following properties:
+  // { text, key, onClick, style }
   constructor(props) {
     super(props)
 
@@ -66,7 +68,12 @@ class ButtonRow extends Component {
         </Button>
       )
     })
-    const buttonLabels = buttons.map(button => <div key={button.key}>({ button.key })</div>)
+    const buttonLabels = buttons.map((button) => {
+      const { key } = button
+      const keyLabel = key === ' ' ? 'Space' : key.toUpperCase()
+
+      return <div key={key}>({keyLabel})</div>
+    })
 
     return (
       <div className="button-row-container">
@@ -77,6 +84,11 @@ class ButtonRow extends Component {
   }
 }
 
+///////////////////////////
+// Button layout presets //
+///////////////////////////
+
+/** Initial response options */
 export const AnswerButtonRow = (props) => {
   const { onYesClick, onNoClick } = props
   const buttons = [
@@ -96,6 +108,7 @@ export const AnswerButtonRow = (props) => {
   return <ButtonRow buttons={buttons} />
 }
 
+/** Options if 'no' is selected */
 export const FailureButtonRow = (props) => {
   const { onLowClick, onMedClick, onHighClick } = props
   const buttons = [
@@ -121,6 +134,7 @@ export const FailureButtonRow = (props) => {
   return <ButtonRow buttons={buttons} />
 }
 
+/** Options if 'yes' is selected */
 export const SuccessButtonRow = (props) => {
   const { onLowClick, onMedClick, onHighClick } = props
   const buttons = [

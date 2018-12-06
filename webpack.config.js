@@ -13,10 +13,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const finalCSSLoader = (env === 'production') ? MiniCssExtractPlugin.loader : { loader: 'style-loader' }
 
-
 module.exports = {
   mode: env,
-  entry: ['babel-polyfill', './src'], // this is where our app lives
+  entry: ['babel-polyfill', './src/app.js'], // this is where our app lives
   devtool: 'source-map', // this enables debugging with source in chrome devtools
   node: { fs: 'empty' }, // weird env2 + webpack bug
   resolve: {
