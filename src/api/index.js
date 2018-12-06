@@ -10,7 +10,16 @@ const DEFAULT_USER = 'apetros'
 export function getNextCard() {
   const user = DEFAULT_USER
 
-  return axios.get(`${ROOT_URL}/api/${user}`)
+  return axios.get(`${ROOT_URL}/api/${user}/card`)
+    .then((res) => {
+      return res.data.card
+    })
+}
+
+export function getRandomCard() {
+  const user = DEFAULT_USER
+
+  return axios.get(`${ROOT_URL}/api/${user}/random`)
     .then((res) => {
       return res.data.card
     })

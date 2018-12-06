@@ -51,7 +51,7 @@ export default class App extends Component {
         if (!err.response) {
           this.setState({ currentCard: null, message: CONNECTION_REFUSED_MSG })
         } else {
-          this.setState({ currentCard: null })
+          this.setState({ currentCard: null, message: err.response })
         }
       })
   }
@@ -80,10 +80,9 @@ export default class App extends Component {
           sendResponse={this.sendResponse}
           card={currentCard} />
       )
-    } else {
+    } else if (message !== '') {
       mainModule = <MessageModule message={message} />
     }
-
 
     return (
       <>
