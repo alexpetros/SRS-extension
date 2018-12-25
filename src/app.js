@@ -6,7 +6,7 @@ import Unsplash, { toJson } from 'unsplash-js'
 import './components/style.scss'
 
 import { MemoryModule, MessageModule } from './components'
-import { getNextCard, sendCardResponse } from './api'
+import { getNextCard, getSecondCard, sendCardResponse } from './api'
 
 const CONNECTION_REFUSED_MSG = 'Sorry, the server is not responsing.'
 const FINISHED_MSG = 'All done!'
@@ -23,6 +23,7 @@ export default class App extends Component {
 
     this.state = {
       currentCard: null,
+      nextCard: null,
       message: '',
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
@@ -38,10 +39,11 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.loadCard()
+    this.loadFirstCard()
+    this.loadSecondCard()
   }
 
-  loadCard() {
+  loadFirstCard() {
     getNextCard()
       .then((card) => {
         const message = card ? '' : FINISHED_MSG
@@ -56,10 +58,22 @@ export default class App extends Component {
       })
   }
 
+  loadSecondCard() {
+    getSecondCard().then((card) => {
+      this.setState({ nextCard: card })
+    })
+  }
+
+  shiftCard() {
+    const { nextCard } = this.state
+    this.setState({ currentCard: nextCard, nextCard: null })
+    this.loadSecondCard()
+  }
+
   sendResponse(performanceRating) {
     const { currentCard } = this.state
     sendCardResponse(currentCard._id, performanceRating).then(() => {
-      this.loadCard()
+      this.shiftCard()
     })
   }
 
