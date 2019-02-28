@@ -110,24 +110,12 @@ export const AnswerButtonRow = (props) => {
 
 /** Options if 'no' is selected */
 export const FailureButtonRow = (props) => {
-  const { onLowClick, onMedClick, onHighClick } = props
+  const { onClick } = props
   const buttons = [
     {
-      text: 'No idea',
-      key: 'f',
-      onClick: onLowClick,
-      style: 'danger',
-    },
-    {
-      text: 'Sort of',
+      text: 'Got it',
       key: ' ',
-      onClick: onMedClick,
-      style: 'warning',
-    },
-    {
-      text: 'Almost',
-      key: 'j',
-      onClick: onHighClick,
+      onClick,
       style: 'success',
     },
   ]

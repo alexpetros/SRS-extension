@@ -6,9 +6,7 @@ const QUESTION_VIEW = 'QUESTION'
 const SUCCESS_VIEW = 'SUCCESS'
 const FAILURE_VIEW = 'FAILURE'
 
-const LOW_CONFIDENCE_FAILURE = 0
-const MED_CONFIDENCE_FAILURE = 0.2
-const HIGH_CONFIDENCE_FAILURE = 0.4
+const FAILURE = 0.3
 const LOW_CONFIDENCE_SUCCESS = 0.6
 const MED_CONFIDENCE_SUCCESS = 0.8
 const HIGH_CONFIDENCE_SUCCESS = 1
@@ -65,9 +63,7 @@ class MemoryModule extends Component {
       case FAILURE_VIEW:
         buttonRow = (
           <FailureButtonRow
-            onLowClick={() => { this.sendResponseAndReset(LOW_CONFIDENCE_FAILURE) }}
-            onMedClick={() => { this.sendResponseAndReset(MED_CONFIDENCE_FAILURE) }}
-            onHighClick={() => { this.sendResponseAndReset(HIGH_CONFIDENCE_FAILURE) }} />
+            onClick={() => { this.sendResponseAndReset(FAILURE) }} />
         )
         break
       default:
@@ -78,7 +74,7 @@ class MemoryModule extends Component {
         <ContentCard
           content={card.content}
           answer={card.answer}
-          displayAnswer={view === FAILURE_VIEW}
+          displayAnswer={view !== QUESTION_VIEW}
           imageUrl={card.imageUrl} />
         {buttonRow}
       </div>
