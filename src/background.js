@@ -19,9 +19,9 @@ function sendNotification() {
 function setAlarm() {
   API.checkFrequentFetch().then((enableFetch) => {
     if (enableFetch === true) {
-      chrome.alarms.create('notification', { delayInMinutes: SHORT_DELAY })
+      chrome.alarms.create('fetch-alarm', { delayInMinutes: SHORT_DELAY })
     } else {
-      chrome.alarms.create('notification', { delayInMinutes: LONG_DELAY })
+      chrome.alarms.create('fetch-alarm', { delayInMinutes: LONG_DELAY })
     }
     console.log(`enableFetch is: ${enableFetch}`)
   })
@@ -41,8 +41,9 @@ function notificationAlarm(alarm) {
 
 /**** runs on start ****/
 chrome.alarms.onAlarm.addListener(notificationAlarm)
-// chrome.notifications.onClicked.addListener(() => {
-
-// })
+chrome.notifications.onClicked.addListener(() => {
+  chrome.notifications.clear('reminder')
+  chrome.tabs.create({}, () => {})
+})
 setAlarm()
 
