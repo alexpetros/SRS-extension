@@ -2,9 +2,13 @@
     "name": "SRS New Tab",
     "version": "0.1",
     "description": "Integrate spaced learning into your day!",
-    "permissions": [],
+    "permissions": ["alarms"],
     "chrome_url_overrides": {
       "newtab": "index.html"
+    },
+    "background": {
+      "scripts": ["main.js", "background.js"],
+      "persistent": false
     },
     "browser_action": {
       "default_popup": "src/popup.html",

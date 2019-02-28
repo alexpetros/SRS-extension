@@ -23,6 +23,7 @@ module.exports = {
   },
   module: {
     rules: [
+
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -61,6 +62,13 @@ module.exports = {
           },
         ],
       },
+      {
+        test: require.resolve('./src/api/index.js'),
+        use: [{
+          loader: 'expose-loader',
+          options: 'API',
+        }],
+      },
     ],
   },
   plugins: [
@@ -72,6 +80,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: './src/manifest.json' },
+      { from: './src/background.js' },
       { from: './src/img', to: './img/' },
     ]),
   ],

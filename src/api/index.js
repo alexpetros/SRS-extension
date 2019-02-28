@@ -52,3 +52,13 @@ export function sendCardResponse(cardId, performanceRating) {
     performanceRating,
   })
 }
+
+/** returns true if the app should be frequently fetching notifications */
+export function checkFrequentFetch() {
+  const user = DEFAULT_USER
+
+  return axios.get(`${ROOT_URL}/api/${user}/enableFetch`)
+    .then((res) => {
+      return res.data.enableFetch
+    })
+}

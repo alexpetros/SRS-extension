@@ -1,4 +1,4 @@
-/* eslint no-unused-vars:0 */
+/* eslint no-unused-vars:0 import/no-webpack-loader-syntax:0 */
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Unsplash, { toJson } from 'unsplash-js'
@@ -7,6 +7,10 @@ import './components/style.scss'
 
 import { MemoryModule, MessageModule } from './components'
 import { getNextCard, getSecondCard, sendCardResponse } from './api'
+
+require('expose-loader?API!./api/index.js')
+
+// window.axios = require('axios')
 
 const CONNECTION_REFUSED_MSG = 'Sorry, the server is not responsing.'
 const FINISHED_MSG = 'All done!'
@@ -47,6 +51,8 @@ export default class App extends Component {
     getNextCard()
       .then((card) => {
         const message = card ? '' : FINISHED_MSG
+        // enable/disable background script here
+
         this.setState({ currentCard: card, message })
       })
       .catch((err) => {
