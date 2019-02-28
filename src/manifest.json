@@ -2,7 +2,7 @@
     "name": "SRS New Tab",
     "version": "0.1",
     "description": "Integrate spaced learning into your day!",
-    "permissions": ["alarms"],
+    "permissions": ["alarms", "notifications"],
     "chrome_url_overrides": {
       "newtab": "index.html"
     },

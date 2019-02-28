@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const SHORT_DELAY = 5
+const SHORT_DELAY = 1
 const LONG_DELAY = 30
 
 // for (var item in window) {
@@ -7,7 +7,13 @@ const LONG_DELAY = 30
 // }
 
 function sendNotification() {
-  console.log('sent notification')
+  console.log('sending notifications')
+  chrome.notifications.create('reminder', {
+    type: 'basic',
+    iconUrl: 'img/get_started128.png',
+    title: 'Don\'t forget!',
+    message: 'You have cards pending!',
+  }, (notificationId) => {})
 }
 
 function setAlarm() {
@@ -35,5 +41,8 @@ function notificationAlarm(alarm) {
 
 /**** runs on start ****/
 chrome.alarms.onAlarm.addListener(notificationAlarm)
+// chrome.notifications.onClicked.addListener(() => {
+
+// })
 setAlarm()
 
