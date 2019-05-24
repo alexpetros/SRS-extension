@@ -71,8 +71,9 @@ export default class App extends Component {
   }
 
   shiftCard() {
-    const { nextCard } = this.state
-    this.setState({ currentCard: nextCard, nextCard: null })
+    const { nextCard, message } = this.state
+    const nextMessage = nextCard ? message : FINISHED_MSG
+    this.setState({ currentCard: nextCard, nextCard: null, message: nextMessage })
     this.loadSecondCard()
   }
 
