@@ -109,7 +109,7 @@ export const AnswerButtonRow = (props) => {
 }
 
 /** Options if 'no' is selected */
-export const FailureButtonRow = (props) => {
+export const ConfirmationButtonRow = (props) => {
   const { onClick } = props
   const buttons = [
     {
@@ -122,29 +122,29 @@ export const FailureButtonRow = (props) => {
   return <ButtonRow buttons={buttons} />
 }
 
-/** Options if 'yes' is selected */
-export const SuccessButtonRow = (props) => {
-  const { onLowClick, onMedClick, onHighClick } = props
-  const buttons = [
-    {
-      text: 'Barely',
-      key: 'f',
-      onClick: onLowClick,
-      style: 'danger',
-    },
-    {
-      text: 'Pretty well',
-      key: ' ',
-      onClick: onMedClick,
-      style: 'warning',
-    },
-    {
-      text: 'Perfectly',
-      key: 'j',
-      onClick: onHighClick,
-      style: 'success',
-    },
-  ]
-  return <ButtonRow buttons={buttons} />
-}
+// /** Options if 'yes' is selected */
+// export const SuccessButtonRow = (props) => {
+//   const { onLowClick, onMedClick, onHighClick } = props
+//   const buttons = [
+//     {
+//       text: 'Barely',
+//       key: 'f',
+//       onClick: onLowClick,
+//       style: 'danger',
+//     },
+//     {
+//       text: 'Pretty well',
+//       key: ' ',
+//       onClick: onMedClick,
+//       style: 'warning',
+//     },
+//     {
+//       text: 'Perfectly',
+//       key: 'j',
+//       onClick: onHighClick,
+//       style: 'success',
+//     },
+//   ]
+//   return <ButtonRow buttons={buttons} />
+// }
 

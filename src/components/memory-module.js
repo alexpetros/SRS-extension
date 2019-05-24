@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import ContentCard from './content-card'
-import { AnswerButtonRow, SuccessButtonRow, FailureButtonRow } from './buttons'
+import { AnswerButtonRow, ConfirmationButtonRow } from './buttons'
 
 const QUESTION_VIEW = 'QUESTION'
 const SUCCESS_VIEW = 'SUCCESS'
 const FAILURE_VIEW = 'FAILURE'
 
 const FAILURE = 0.3
-const LOW_CONFIDENCE_SUCCESS = 0.6
-const MED_CONFIDENCE_SUCCESS = 0.8
-const HIGH_CONFIDENCE_SUCCESS = 1
+const SUCCESS = 0.7
 
 class MemoryModule extends Component {
   constructor(props) {
@@ -54,15 +52,13 @@ class MemoryModule extends Component {
         break
       case SUCCESS_VIEW:
         buttonRow = (
-          <SuccessButtonRow
-            onLowClick={() => { this.sendResponseAndReset(LOW_CONFIDENCE_SUCCESS) }}
-            onMedClick={() => { this.sendResponseAndReset(MED_CONFIDENCE_SUCCESS) }}
-            onHighClick={() => { this.sendResponseAndReset(HIGH_CONFIDENCE_SUCCESS) }} />
+          <ConfirmationButtonRow
+            onClick={() => { this.sendResponseAndReset(SUCCESS) }} />
         )
         break
       case FAILURE_VIEW:
         buttonRow = (
-          <FailureButtonRow
+          <ConfirmationButtonRow
             onClick={() => { this.sendResponseAndReset(FAILURE) }} />
         )
         break
