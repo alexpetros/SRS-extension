@@ -5,7 +5,7 @@ import Unsplash, { toJson } from 'unsplash-js'
 
 import './components/style.scss'
 
-import { MemoryModule, MessageModule } from './components'
+import { MemoryModule, MessageModule, LogonModule, NavBar } from './components'
 import { getNextCard, getSecondCard, sendCardResponse } from './api'
 
 require('expose-loader?API!./api/index.js')
@@ -29,6 +29,7 @@ export default class App extends Component {
       currentCard: null,
       nextCard: null,
       message: '',
+      logon: false,
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
     }
@@ -45,6 +46,10 @@ export default class App extends Component {
   componentDidMount() {
     this.loadFirstCard()
     this.loadSecondCard()
+  }
+
+  setLogon(logon) {
+    this.setState({ logon })
   }
 
   loadFirstCard() {
@@ -90,12 +95,14 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentCard, image, message } = this.state
+    const { currentCard, image, message, logon } = this.state
     const backgroundClass = `background ${this.isBlurred() ? 'blurred' : ''}`
     const backgroundStlye = { backgroundImage: `url(${image})` || '' }
 
     let mainModule
-    if (currentCard) {
+    if (logon === true) {
+      mainModule = <LogonModule setLogonState={this.setLogon} />
+    } else if (currentCard) {
       mainModule = (
         <MemoryModule
           sendResponse={this.sendResponse}
@@ -109,6 +116,7 @@ export default class App extends Component {
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
+          <NavBar onClick={() => { this.setLogon(true) }} />
           {mainModule}
         </div>
       </>

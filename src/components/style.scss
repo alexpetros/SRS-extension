@@ -47,6 +47,38 @@ body, html {
   width: 100%;
 }
 
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 5px;
+
+  .login-button {
+    width: 60px;
+  }
+}
+
+.logon-module {
+
+  .logon-entry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+  }
+
+  input {
+    color: black;
+    margin-right: 5px;
+
+    height: 40px;
+  }
+
+  button {
+    height: 40px;
+  }
+}
+
 .memory-module {
   height: 100%;
   width: 80%;
