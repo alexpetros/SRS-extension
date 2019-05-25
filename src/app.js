@@ -43,6 +43,9 @@ export default class App extends Component {
     //   })
     this.sendResponse = this.sendResponse.bind(this)
     this.setLogon = this.setLogon.bind(this)
+    this.loadFirstCard = this.loadFirstCard.bind(this)
+    this.loadSecondCard = this.loadSecondCard.bind(this)
+    this.sendResponse = this.sendResponse.bind(this)
   }
 
   componentDidMount() {
@@ -62,16 +65,22 @@ export default class App extends Component {
   setLogon(logon, username) {
     // if you're entering the login screen, logout of current user
     if (logon) {
-      this.setState({ logon, username: '' })
+      this.setState({ logon, username: '', currentCard: null, nextCard: null })
       chrome.storage.local.set({ username: '' }, () => {}) // eslint-disable-line no-undef
-    // if you're leaving the login screen, add the username if one exists
+    // if you're leaving the login screen, add the username to state
     } else {
-      this.setState({ logon, username })
+      this.setState({ logon, username }, () => {
+        // load cards in the callback, once username is set
+        this.loadFirstCard()
+        this.loadSecondCard()
+      })
     }
   }
 
   loadFirstCard() {
-    getNextCard()
+    const { username } = this.state
+
+    getNextCard(username)
       .then((card) => {
         const message = card ? '' : FINISHED_MSG
         // enable/disable background script here
@@ -88,7 +97,9 @@ export default class App extends Component {
   }
 
   loadSecondCard() {
-    getSecondCard().then((card) => {
+    const { username } = this.state
+
+    getSecondCard(username).then((card) => {
       this.setState({ nextCard: card })
     })
   }
@@ -101,8 +112,8 @@ export default class App extends Component {
   }
 
   sendResponse(performanceRating) {
-    const { currentCard } = this.state
-    sendCardResponse(currentCard._id, performanceRating).then(() => {
+    const { username, currentCard } = this.state
+    sendCardResponse(username, currentCard._id, performanceRating).then(() => {
       this.shiftCard()
     })
   }

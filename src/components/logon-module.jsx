@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/lib/Button'
 
-import { getUser } from '../api'
+import { getUser, createUser } from '../api'
 
 const SIGNIN_MESSAGE = 'Please enter a username'
 const CREATE_USER_MESSAGE = 'User does not exist. Create it?'
@@ -40,12 +40,15 @@ export default class LogonModule extends Component {
 
   createNewUser(event) {
     event.preventDefault()
+    const { username } = this.state
+    const { setLogonState } = this.props
+
+    // since you only see this if the user doesn't exist
+    // there shouldn't be any issues with duplicate users
+    createUser(username).then(() => {
+      setLogonState(false, username)
+    })
   }
-
-  // if it doesn't exist, offer to make it
-
-  // if success
-  // save username in local
 
   handleChange(event) {
     this.setState({ username: event.target.value })
@@ -53,6 +56,7 @@ export default class LogonModule extends Component {
 
   render() {
     const { isSignin, username } = this.state
+    const buttonText = isSignin ? 'Enter' : 'Create User'
 
     const signinModule = (
       <div className="logon-module">
@@ -67,9 +71,9 @@ export default class LogonModule extends Component {
     const createModule = (
       <div className="logon-module">
         <div className="logon-message">{CREATE_USER_MESSAGE}</div>
-        <form onSubmit={this.signinUser} className="logon-entry">
+        <form onSubmit={this.createNewUser} className="logon-entry">
           <input type="text" value={username} onChange={this.handleChange} />
-          <Button bsStyle="primary" type="submit">Enter</Button>
+          <Button bsStyle="primary" type="submit">{buttonText}</Button>
         </form>
       </div>
     )

@@ -5,8 +5,6 @@ const DEV_URL = 'http://localhost:9090'
 const PROD_URL = 'https://srs-api.herokuapp.com'
 const ROOT_URL = process.env.NODE_ENV === 'production' ? PROD_URL : DEV_URL
 
-const DEFAULT_USER = 'apetros'
-
 function preloadCardImage(card) {
   if (card && card.imageUrl) {
     const image = new Image()
@@ -29,12 +27,26 @@ export function getUser(username) {
     })
 }
 
-export function createUser() {
+export function createUser(username) {
+  console.log('posting')
+  return axios.post(`${ROOT_URL}/api/`, {
+    username,
+    email: '',
+  }).then((res) => {
+    return true
+  }).catch((err) => {
+    // return false if user already exists
+    // theoretically, the login flow should make this impossible
+    if (err.response.status === 400) {
+      return false
+      // throw other errors
+    } else {
+      throw err
+    }
+  })
 }
 
-export function getNextCard() {
-  const user = DEFAULT_USER
-
+export function getNextCard(user) {
   return axios.get(`${ROOT_URL}/api/${user}/card`)
     .then((res) => {
       preloadCardImage(res.data.card)
@@ -42,9 +54,7 @@ export function getNextCard() {
     })
 }
 
-export function getSecondCard() {
-  const user = DEFAULT_USER
-
+export function getSecondCard(user) {
   return axios.get(`${ROOT_URL}/api/${user}/card/2`)
     .then((res) => {
       preloadCardImage(res.data.card)
@@ -52,9 +62,7 @@ export function getSecondCard() {
     })
 }
 
-export function getRandomCard() {
-  const user = DEFAULT_USER
-
+export function getRandomCard(user) {
   return axios.get(`${ROOT_URL}/api/${user}/random`)
     .then((res) => {
       preloadCardImage(res.data.card)
@@ -62,9 +70,7 @@ export function getRandomCard() {
     })
 }
 
-export function sendCardResponse(cardId, performanceRating) {
-  const user = DEFAULT_USER
-
+export function sendCardResponse(user, cardId, performanceRating) {
   return axios.post(`${ROOT_URL}/api/${user}/card`, {
     cardId,
     performanceRating,
@@ -72,9 +78,7 @@ export function sendCardResponse(cardId, performanceRating) {
 }
 
 /** returns true if the app should be frequently fetching notifications */
-export function checkFrequentFetch() {
-  const user = DEFAULT_USER
-
+export function checkFrequentFetch(user) {
   return axios.get(`${ROOT_URL}/api/${user}/enableFetch`)
     .then((res) => {
       return res.data.enableFetch
