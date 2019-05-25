@@ -27,9 +27,11 @@ export default class LogonModule extends Component {
 
     // check if user exists
     getUser(username).then((user) => {
-      console.log(user)
       if (user !== null) {
-        setLogonState(false)
+        chrome.storage.local.set({ username }, () => { // eslint-disable-line no-undef
+          console.log(`User is set to ${username}`)
+          setLogonState(false, username)
+        })
       } else {
         this.setState({ isSignin: false })
       }
@@ -37,7 +39,7 @@ export default class LogonModule extends Component {
   }
 
   createNewUser(event) {
-
+    event.preventDefault()
   }
 
   // if it doesn't exist, offer to make it

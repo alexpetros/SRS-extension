@@ -32,6 +32,7 @@ export default class App extends Component {
       logon: false,
       // temporary default photo bc eduroam blows
       image: '../img/default-photo.jpeg',
+      username: '',
     }
 
     // KL9IanHzSE4 - space
@@ -45,12 +46,28 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.loadFirstCard()
-    this.loadSecondCard()
+    chrome.storage.local.get(['username'], (result) => { // eslint-disable-line no-undef
+      // if user is already logged in, load their cards
+      if (result.username !== undefined) {
+        this.setState({ username: result.username })
+        this.loadFirstCard()
+        this.loadSecondCard()
+      // otherwise prompt them to log in
+      } else {
+        this.setState({ logon: true })
+      }
+    })
   }
 
-  setLogon(logon) {
-    this.setState({ logon })
+  setLogon(logon, username) {
+    // if you're entering the login screen, logout of current user
+    if (logon) {
+      this.setState({ logon, username: '' })
+      chrome.storage.local.set({ username: '' }, () => {}) // eslint-disable-line no-undef
+    // if you're leaving the login screen, add the username if one exists
+    } else {
+      this.setState({ logon, username })
+    }
   }
 
   loadFirstCard() {
@@ -96,7 +113,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentCard, image, message, logon } = this.state
+    const { currentCard, image, message, logon, username } = this.state
     const backgroundClass = `background ${this.isBlurred() ? 'blurred' : ''}`
     const backgroundStlye = { backgroundImage: `url(${image})` || '' }
 
@@ -117,7 +134,7 @@ export default class App extends Component {
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
-          <NavBar onClick={() => { this.setLogon(true) }} />
+          <NavBar username={username} onClick={() => { this.setLogon(true) }} />
           {mainModule}
         </div>
       </>

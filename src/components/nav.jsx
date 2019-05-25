@@ -2,16 +2,15 @@ import React from 'react'
 import Button from 'react-bootstrap/lib/Button'
 
 export default function NavBar(props) {
-  const { name, onClick } = props
-
+  const { username, onClick } = props
   return (
     <div className="nav">
-      {name}
+      {username}
       <Button
         bsStyle="info"
         className="login-button"
         onClick={onClick}>
-          Login
+        {username ? 'Logout' : 'Login'}
       </Button>
     </div>
 
