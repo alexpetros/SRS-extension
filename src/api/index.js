@@ -14,6 +14,25 @@ function preloadCardImage(card) {
   }
 }
 
+export function getUser(username) {
+  return axios.get(`${ROOT_URL}/api/${username}`)
+    .then((res) => {
+      console.log(res.body)
+      return res.body.user
+    }).catch((err) => {
+      // return null if user doesn't exist
+      if (err.response.status === 400) {
+        return null
+      // throw other errors
+      } else {
+        throw err
+      }
+    })
+}
+
+export function createUser() {
+}
+
 export function getNextCard() {
   const user = DEFAULT_USER
 

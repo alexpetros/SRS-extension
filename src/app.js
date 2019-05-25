@@ -41,6 +41,7 @@ export default class App extends Component {
     //     this.setState({ image: res.urls.full })
     //   })
     this.sendResponse = this.sendResponse.bind(this)
+    this.setLogon = this.setLogon.bind(this)
   }
 
   componentDidMount() {
