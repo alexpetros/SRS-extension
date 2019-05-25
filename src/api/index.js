@@ -17,7 +17,6 @@ function preloadCardImage(card) {
 export function getUser(username) {
   return axios.get(`${ROOT_URL}/api/${username}`)
     .then((res) => {
-      console.log(res.body)
       return res.body.user
     }).catch((err) => {
       // return null if user doesn't exist

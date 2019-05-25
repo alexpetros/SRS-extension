@@ -3,23 +3,24 @@ import Button from 'react-bootstrap/lib/Button'
 
 import { getUser } from '../api'
 
-const DEFAULT_MESSAGE = 'Please enter a username'
-const NO_USER_MESSAGE = 'User does not exist. Create it?'
+const SIGNIN_MESSAGE = 'Please enter a username'
+const CREATE_USER_MESSAGE = 'User does not exist. Create it?'
 
 export default class LogonModule extends Component {
   constructor(state) {
     super()
 
     this.state = {
-      message: DEFAULT_MESSAGE,
+      isSignin: true,
       username: '',
     }
 
     this.handleChange = this.handleChange.bind(this)
-    this.submitUser = this.submitUser.bind(this)
+    this.signinUser = this.signinUser.bind(this)
+    this.createNewUser = this.createNewUser.bind(this)
   }
 
-  submitUser(event) {
+  signinUser(event) {
     event.preventDefault()
     const { setLogonState } = this.props
     const { username } = this.state
@@ -30,9 +31,13 @@ export default class LogonModule extends Component {
       if (user !== null) {
         setLogonState(false)
       } else {
-        this.setState({ message: NO_USER_MESSAGE })
+        this.setState({ isSignin: false })
       }
     })
+  }
+
+  createNewUser(event) {
+
   }
 
   // if it doesn't exist, offer to make it
@@ -45,16 +50,35 @@ export default class LogonModule extends Component {
   }
 
   render() {
-    const { message, username } = this.state
-    return (
+    const { isSignin, username } = this.state
+
+    const signinModule = (
       <div className="logon-module">
-        <div>{message}</div>
-        <form onSubmit={this.submitUser} className="logon-entry">
+        <div className="logon-message">{SIGNIN_MESSAGE}</div>
+        <form onSubmit={this.signinUser} className="logon-entry">
           <input type="text" value={username} onChange={this.handleChange} />
           <Button bsStyle="primary" type="submit">Enter</Button>
         </form>
       </div>
     )
+
+    const createModule = (
+      <div className="logon-module">
+        <div className="logon-message">{CREATE_USER_MESSAGE}</div>
+        <form onSubmit={this.signinUser} className="logon-entry">
+          <input type="text" value={username} onChange={this.handleChange} />
+          <Button bsStyle="primary" type="submit">Enter</Button>
+        </form>
+      </div>
+    )
+
+    // const
+
+    if (isSignin) {
+      return signinModule
+    } else {
+      return createModule
+    }
   }
 }
 

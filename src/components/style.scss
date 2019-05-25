@@ -59,6 +59,21 @@ body, html {
 }
 
 .logon-module {
+  height: 60%;
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .logon-message {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+  }
 
   .logon-entry {
     display: flex;
@@ -69,7 +84,8 @@ body, html {
 
   input {
     color: black;
-    margin-right: 5px;
+    margin-right: 10px;
+    border-radius: 4px;
 
     height: 40px;
   }
