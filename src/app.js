@@ -51,7 +51,7 @@ export default class App extends Component {
   componentDidMount() {
     chrome.storage.local.get(['username'], (result) => { // eslint-disable-line no-undef
       // if user is already logged in, load their cards
-      if (result.username !== undefined) {
+      if (result.username !== '') {
         this.setState({ username: result.username })
         this.loadFirstCard()
         this.loadSecondCard()
@@ -119,8 +119,9 @@ export default class App extends Component {
   }
 
   isBlurred() {
-    const { currentCard } = this.state
-    return currentCard !== null
+    // blur if you're logged out or there's cards left
+    const { currentCard, username } = this.state
+    return username === '' || currentCard !== null
   }
 
   render() {

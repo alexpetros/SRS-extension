@@ -15,9 +15,10 @@ export default class LogonModule extends Component {
       username: '',
     }
 
-    this.handleChange = this.handleChange.bind(this)
+    this.handleTextChange = this.handleTextChange.bind(this)
     this.signinUser = this.signinUser.bind(this)
     this.createNewUser = this.createNewUser.bind(this)
+    this.returnToLogin = this.returnToLogin.bind(this)
   }
 
   signinUser(event) {
@@ -50,19 +51,22 @@ export default class LogonModule extends Component {
     })
   }
 
-  handleChange(event) {
+  returnToLogin(event) {
+    this.setState({ isSignin: true, username: '' })
+  }
+
+  handleTextChange(event) {
     this.setState({ username: event.target.value })
   }
 
   render() {
     const { isSignin, username } = this.state
-    const buttonText = isSignin ? 'Enter' : 'Create User'
 
     const signinModule = (
       <div className="logon-module">
         <div className="logon-message">{SIGNIN_MESSAGE}</div>
         <form onSubmit={this.signinUser} className="logon-entry">
-          <input type="text" value={username} onChange={this.handleChange} />
+          <input type="text" value={username} onChange={this.handleTextChange} />
           <Button bsStyle="primary" type="submit">Enter</Button>
         </form>
       </div>
@@ -71,9 +75,10 @@ export default class LogonModule extends Component {
     const createModule = (
       <div className="logon-module">
         <div className="logon-message">{CREATE_USER_MESSAGE}</div>
-        <form onSubmit={this.createNewUser} className="logon-entry">
-          <input type="text" value={username} onChange={this.handleChange} />
-          <Button bsStyle="primary" type="submit">{buttonText}</Button>
+        <form onSubmit={this.createNewUser} onReset={this.returnToLogin} className="logon-entry">
+          <input type="text" value={username} onChange={this.handleTextChange} />
+          <Button bsStyle="primary" type="submit">Create User</Button>
+          <Button bsStyle="danger" type="reset">Cancel</Button>
         </form>
       </div>
     )
