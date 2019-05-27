@@ -5,13 +5,26 @@ export default function NavBar(props) {
   const { username, onClick } = props
   return (
     <div className="nav">
-      {username}
-      <Button
-        bsStyle="info"
-        className="login-button"
-        onClick={onClick}>
-        {username ? 'Logout' : 'Login'}
-      </Button>
+
+      <div className="nav-left-side">
+        <Button
+          bsStyle="info"
+          className="decks-button"
+          onDecksClick>
+          Decks
+        </Button>
+      </div>
+
+      <div className="nav-right-side">
+        {username}
+        <Button
+          bsStyle="info"
+          className="login-button"
+          onLoginClick={onClick}>
+          {username ? 'Logout' : 'Login'}
+        </Button>
+      </div>
+
     </div>
 
   )

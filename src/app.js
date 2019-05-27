@@ -146,7 +146,7 @@ export default class App extends Component {
       <>
         <div className={backgroundClass} style={backgroundStlye} />
         <div className="content">
-          <NavBar username={username} onClick={() => { this.setLogon(true) }} />
+          <NavBar username={username} onLoginClick={() => { this.setLogon(true) }} />
           {mainModule}
         </div>
       </>

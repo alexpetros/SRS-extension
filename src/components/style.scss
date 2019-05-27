@@ -50,14 +50,23 @@ body, html {
 .nav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
 
-  margin: 5px;
+  width: 100%;
+  padding: 10px;
   font-size: 1.5em;
 
-  .login-button {
+  button {
     width: 70px;
-    margin-left: 15px;
+  }
+
+  .login-button {
+    margin-left: 10px;
+  }
+
+  &:after, &:before {
+    content: none;
+    display: none;
   }
 }
 

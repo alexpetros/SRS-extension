@@ -83,8 +83,6 @@ export default class LogonModule extends Component {
       </div>
     )
 
-    // const
-
     if (isSignin) {
       return signinModule
     } else {
