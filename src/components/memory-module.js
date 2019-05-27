@@ -40,8 +40,13 @@ class MemoryModule extends Component {
   render() {
     const { card } = this.props
     const { view } = this.state
-    let buttonRow
 
+    // return empty container if it was passed without a card
+    if (card === null) {
+      return null
+    }
+
+    let buttonRow
     switch (view) {
       case QUESTION_VIEW:
         buttonRow = (
@@ -65,6 +70,7 @@ class MemoryModule extends Component {
       default:
         break
     }
+
     return (
       <div className="memory-module">
         <ContentCard

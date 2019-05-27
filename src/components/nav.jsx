@@ -2,7 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/lib/Button'
 
 export default function NavBar(props) {
-  const { username, onClick } = props
+  const { username, onLoginClick, onDecksClick } = props
   return (
     <div className="nav">
 
@@ -10,7 +10,7 @@ export default function NavBar(props) {
         <Button
           bsStyle="info"
           className="decks-button"
-          onDecksClick>
+          onClick={onDecksClick}>
           Decks
         </Button>
       </div>
@@ -20,7 +20,7 @@ export default function NavBar(props) {
         <Button
           bsStyle="info"
           className="login-button"
-          onLoginClick={onClick}>
+          onClick={onLoginClick}>
           {username ? 'Logout' : 'Login'}
         </Button>
       </div>
