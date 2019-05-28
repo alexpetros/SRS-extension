@@ -197,3 +197,30 @@ body, html {
     color: white;
   }
 }
+
+.decks-module {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    margin-top: 50px;
+    margin-bottom: 25px;
+
+    font-size: 2.5em;
+  }
+
+  .deck-list {
+    width: 50%;
+  }
+
+  .deck-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+}
