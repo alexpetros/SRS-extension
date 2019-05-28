@@ -1,6 +1,6 @@
 {
     "name": "SRS New Tab",
-    "version": "0.1",
+    "version": "0.21",
     "description": "Integrate spaced learning into your day!",
     "permissions": ["alarms", "notifications", "tabs", "storage"],
     "chrome_url_overrides": {

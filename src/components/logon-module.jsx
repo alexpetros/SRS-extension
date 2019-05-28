@@ -46,7 +46,7 @@ export default class LogonModule extends Component {
 
     // since you only see this if the user doesn't exist
     // there shouldn't be any issues with duplicate users
-    createUser(username).then(() => {
+    createUser(username).then((res) => {
       setLogonState(false, username)
     })
   }

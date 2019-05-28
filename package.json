@@ -1,6 +1,6 @@
 {
   "name": "SRS-Extension",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "main": "index.html",
   "repository": "git@github.com:alexpetros/SRS-extension.git",
   "author": "<apetros15@gmail.com>",

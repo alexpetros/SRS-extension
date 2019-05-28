@@ -70,8 +70,14 @@ export default class App extends Component {
   onDecksClick() {
     // switch between card and decks module
     const { module } = this.state
-    const nextModule = module === CARD_MODULE ? DECKS_MODULE : CARD_MODULE
-    this.setState({ module: nextModule })
+    // const nextModule = module === CARD_MODULE ? DECKS_MODULE : CARD_MODULE
+    if (module === DECKS_MODULE) {
+      this.loadFirstCard()
+      this.loadSecondCard()
+      this.setState({ module: CARD_MODULE })
+    } else {
+      this.setState({ module: DECKS_MODULE })
+    }
   }
 
   setLogon(logon, username) {
@@ -95,6 +101,7 @@ export default class App extends Component {
   }
 
   loadFirstCard() {
+    console.log('reloading first card')
     const { username } = this.state
 
     getNextCard(username)
@@ -169,8 +176,8 @@ export default class App extends Component {
         throw new Error('should not be possible')
     }
 
-    // override others if there's a message ƒor the user
-    if (message !== '') {
+    // override card module if there's a message ƒor the user
+    if (message !== '' && module === CARD_MODULE) {
       mainModule = <MessageModule message={message} />
     }
 
