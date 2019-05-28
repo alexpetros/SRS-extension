@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-import { getUser } from '../api'
+import { getUser, deleteDeck } from '../api'
 
 const DeckRow = (props) => {
   const { deckName, isConfirming, onDeleteClick } = props
@@ -40,10 +40,17 @@ export default class decksModule extends Component {
 
   onDeleteClick(deckName) {
     const { confirmDelete } = this.state
+    const { username } = this.props
 
-    if (confirmDelete) {
-      // delete item and reset confirmation
-      this.setState({ confirmDelete: null })
+    // delete item and reset confirmation
+    if (confirmDelete === deckName) {
+      deleteDeck(username, deckName).then(() => {
+        return getUser(username)
+      }).then((user) => {
+        this.setState({ decks: user.decks, confirmDelete: null })
+      })
+
+    // otherwise just set the icon to confirm the deletion
     } else {
       this.setState({ confirmDelete: deckName })
     }

@@ -68,11 +68,10 @@ export default class App extends Component {
   }
 
   onDecksClick() {
-    // only open the decks if you're logged in
+    // switch between card and decks module
     const { module } = this.state
-    if (module === CARD_MODULE) {
-      this.setState({ module: DECKS_MODULE })
-    }
+    const nextModule = module === CARD_MODULE ? DECKS_MODULE : CARD_MODULE
+    this.setState({ module: nextModule })
   }
 
   setLogon(logon, username) {
@@ -182,6 +181,7 @@ export default class App extends Component {
         <div className="content">
           <NavBar
             username={username}
+            currentView={module}
             onLoginClick={() => { this.setLogon(true) }}
             onDecksClick={this.onDecksClick} />
           {mainModule}

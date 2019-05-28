@@ -84,3 +84,8 @@ export function checkFrequentFetch(user) {
       return res.data.enableFetch
     })
 }
+
+/** removes a specfic deck from a user's profile */
+export function deleteDeck(user, deckName) {
+  return axios.delete(`${ROOT_URL}/api/${user}/deck/${deckName}`)
+}

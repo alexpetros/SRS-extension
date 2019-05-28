@@ -58,6 +58,10 @@ body, html {
 
   button {
     width: 70px;
+
+    &.hidden {
+      visibility: hidden;
+    }
   }
 
   .login-button {
@@ -221,6 +225,8 @@ body, html {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    margin-bottom: 5px;
   }
 
 }
