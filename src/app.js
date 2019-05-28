@@ -5,7 +5,7 @@ import Unsplash, { toJson } from 'unsplash-js'
 
 import './components/style.scss'
 
-import { MemoryModule, MessageModule, LogonModule, NavBar } from './components'
+import { MemoryModule, MessageModule, DecksModule, LogonModule, NavBar } from './components'
 import { getNextCard, getSecondCard, sendCardResponse } from './api'
 
 require('expose-loader?API!./api/index.js')
@@ -16,7 +16,7 @@ const CONNECTION_REFUSED_MSG = 'Sorry, the server is not responsing.'
 const FINISHED_MSG = 'All done!'
 
 const LOGON_MODULE = 'logon'
-const OPTIONS_MODULE = 'options'
+const DECKS_MODULE = 'options'
 const CARD_MODULE = 'card'
 
 const unsplash = new Unsplash({
@@ -47,7 +47,7 @@ export default class App extends Component {
     //   })
     this.sendResponse = this.sendResponse.bind(this)
     this.setLogon = this.setLogon.bind(this)
-    // this.onDecksClick = this.onDecksClick.bind(this)
+    this.onDecksClick = this.onDecksClick.bind(this)
     this.loadFirstCard = this.loadFirstCard.bind(this)
     this.loadSecondCard = this.loadSecondCard.bind(this)
     this.sendResponse = this.sendResponse.bind(this)
@@ -67,9 +67,13 @@ export default class App extends Component {
     })
   }
 
-  // onDecksClick() {
-
-  // }
+  onDecksClick() {
+    // only open the decks if you're logged in
+    const { module } = this.state
+    if (module === CARD_MODULE) {
+      this.setState({ module: DECKS_MODULE })
+    }
+  }
 
   setLogon(logon, username) {
     // if you're entering the login screen, logout of current user
@@ -148,8 +152,12 @@ export default class App extends Component {
       case LOGON_MODULE:
         mainModule = <LogonModule setLogonState={this.setLogon} />
         break
-      case OPTIONS_MODULE:
-        mainModule = null
+      case DECKS_MODULE:
+        mainModule = (
+          <DecksModule
+            closeDecks={() => { this.setState({ module: CARD_MODULE }) }}
+            username={username} />
+        )
         break
       case CARD_MODULE:
         mainModule = (
