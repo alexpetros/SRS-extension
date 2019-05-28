@@ -27,6 +27,7 @@ export default class decksModule extends Component {
     }
 
     this.onDeleteClick = this.onDeleteClick.bind(this)
+    this.uploadFile = this.uploadFile.bind(this)
   }
 
   componentDidMount() {
@@ -56,6 +57,14 @@ export default class decksModule extends Component {
     }
   }
 
+  uploadFile(event) {
+    const { username } = this.props
+    const file = event.target.files[0]
+
+    const formData = new FormData()
+    formData.append('file', file)
+  }
+
   render() {
     const { decks, confirmDelete } = this.state
 
@@ -71,6 +80,9 @@ export default class decksModule extends Component {
                 onDeleteClick={this.onDeleteClick}
                 isConfirming={confirmDelete === deck} />))
           }
+        </div>
+        <div className="add-deck">
+          <input type="file" onChange={this.uploadFile} />
         </div>
       </div>
     )
