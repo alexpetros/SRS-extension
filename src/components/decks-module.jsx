@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-import { getUser, deleteDeck } from '../api'
+import { getUser, deleteDeck, uploadDeck } from '../api'
 
 const DeckRow = (props) => {
   const { deckName, isConfirming, onDeleteClick } = props
@@ -26,17 +26,13 @@ export default class decksModule extends Component {
       decks: [],
     }
 
+    this.updateList = this.updateList.bind(this)
     this.onDeleteClick = this.onDeleteClick.bind(this)
     this.uploadFile = this.uploadFile.bind(this)
   }
 
   componentDidMount() {
-    const { username } = this.props
-
-    // get the user's profile in order to display decks
-    getUser(username).then((user) => {
-      this.setState({ decks: user.decks })
-    })
+    this.updateList()
   }
 
   onDeleteClick(deckName) {
@@ -45,24 +41,37 @@ export default class decksModule extends Component {
 
     // delete item and reset confirmation
     if (confirmDelete === deckName) {
-      deleteDeck(username, deckName).then(() => {
-        return getUser(username)
-      }).then((user) => {
-        this.setState({ decks: user.decks, confirmDelete: null })
+      deleteDeck(username, deckName).then((res) => {
+        this.updateList()
       })
-
     // otherwise just set the icon to confirm the deletion
     } else {
       this.setState({ confirmDelete: deckName })
     }
   }
 
+  updateList() {
+    const { username } = this.props
+    return getUser(username).then((user) => {
+      this.setState({ decks: user.decks, confirmDelete: null })
+    })
+  }
+
   uploadFile(event) {
     const { username } = this.props
     const file = event.target.files[0]
+    const deckName = file.name.slice(0, -4)
 
-    const formData = new FormData()
-    formData.append('file', file)
+    const data = new FormData()
+    const config = { 'content-type': 'multipart/form-data', type: 'text/csv' }
+    data.append('action', 'ADD')
+    data.append('param', 0)
+    data.append('secondParam', 0)
+    data.append('file', file, config)
+
+    uploadDeck(username, data, deckName).then((res) => {
+      this.updateList()
+    })
   }
 
   render() {

@@ -89,3 +89,17 @@ export function checkFrequentFetch(user) {
 export function deleteDeck(user, deckName) {
   return axios.delete(`${ROOT_URL}/api/${user}/deck/${deckName}`)
 }
+
+export function uploadDeck(user, data, deckName) {
+  return axios.post(`${ROOT_URL}/api/${user}/newdeck/${deckName}/csv`, data,
+    {
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      },
+    })
+
+  // this works
+  // const request = new XMLHttpRequest()
+  // request.open('POST', `${ROOT_URL}/api/${user}/newdeck/${deckName}/csv`)
+  // request.send(data)
+}
